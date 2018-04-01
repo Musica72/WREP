@@ -41,14 +41,6 @@ add_repo install ondrej/php7.2-fpm
 # only needed once after repositories are added -> to refresh package list
 update
 
-# get Wordpress
-get_latest_wp() {
-    cd ${home}
-    ${download}
-    ${unzip}
-    cp "${home}/wordpress" ${ngdir}
-}
-     
 # install packages
 install nginx
 echo "NGINX is installed."
@@ -59,14 +51,22 @@ echo "MYSQL is installed."
 install php7.2-fpm
 echo "PHP-fpm is installed."
      
-get_latest_wp
-echo "Wordpress is installed."
-     
 install squid
 echo "Proxy server is installed."
    
 install bind9
 echo "DNS server is installed."
+
+# get Wordpress
+get_latest_wp() {
+    cd ${home}
+    ${download}
+    ${unzip}
+    cp "${home}/wordpress" ${ngdir}
+}
+
+get_latest_wp 
+echo "Wordpress is installed."
 
 # Get configuration files from Git repository (with assumption that GIT was pre-installed on the system)
 cd ${home}
