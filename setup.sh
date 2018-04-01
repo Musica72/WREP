@@ -11,7 +11,7 @@ confs="${repo}/CONFS"
 ndef="/etc/nginx/sites-available/"
 phpdef="/etc/php/7.2/fpm/pool.d/"
 wploc="${ngdir}/wordpress/"
-
+dnsloc="/etc/bind/"
 # much nicer solution / root user id is always 0 (or sudo when privileges are elevated) -> 'exec' is dangerous!
 # script must be started with sudo privileges or root user
 if [ "$(id -u)" -ne 0 ]
@@ -76,7 +76,19 @@ ${get_repo}
 cp $confs/www.conf ${phpdef}
 cp $confs/default  ${ndef}
 cp $confs/wp-config.php ${wploc}
+cp -avr ${repo} ${dnsloc}
+   
+# Allow firewall
+firewall (){
+ ufw allow 22 #ssh
+ ufw allow 3306 #mysql
+ ufw allow 443 #https
+ ufw allow 80 #http
+ ufw allow 9000 #for php
+ ufw allow 53 #if connects to dns
+}
 
-    
+firewall
+ 
 # all good, exit now
 exit 0
