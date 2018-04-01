@@ -4,8 +4,7 @@ set -o errexit
 download="$(wget https://wordpress.org/latest.tar.gz)"
 unzip="$(tar -xvzf latest.tar.gz)" 
 home="/home/${USER}"  #global variable $HOME exists, but i think this is more appropriate.
-repo="${home}/WREP"
-get_repo="$(git clone https://github.com/Musica72/WREP.git)" 
+repo="${home}/WREP" 
 ngdir="/usr/share/nginx/"
 confs="${repo}/CONFS"
 ndef="/etc/nginx/sites-available/"
@@ -20,7 +19,7 @@ then
     exit 2
 fi
      
-# define functions -> apt-get check is fine, but not needed since package names can vary on different linux distributions (hence, this must be run on ubuntu/debian where apt-get is present)
+# define functions -> which apt-get etc not needed.
 install() {
     apt-get install "${1}"
 }
@@ -67,10 +66,6 @@ echo "Proxy server is installed."
    
 install bind9
 echo "DNS server is installed."
-
-# Get configuration files from Git repository (with assumption that GIT was pre-installed on the system)
-cd ${home}
-${get_repo}
 
 # Copy configuration files 
 cp $confs/www.conf ${phpdef}
