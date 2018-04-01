@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 set -o errexit
 
+# script must be started with sudo privileges or root user - root user always 0!
+if [ "$(id -u)" -ne 0 ]
+then
+    echo "Please run as root!"
+    exit 2
+fi
+
+# Variables
 download="$(wget https://wordpress.org/latest.tar.gz)"
 unzip="$(tar -xvzf latest.tar.gz)" 
 home="/home/${USER}"  #global variable $HOME exists, but i think this is more appropriate.
 repo="${home}/WREP"
-get_repo="$(git clone https://github.com/Musica72/WREP.git)" 
 ngdir="/usr/share/nginx/"
 confs="${repo}/CONFS"
 ndef="/etc/nginx/sites-available/"
 phpdef="/etc/php/7.2/fpm/pool.d/"
 wploc="${ngdir}/wordpress/"
 dnsloc="/etc/bind/"
-# much nicer solution / root user id is always 0 (or sudo when privileges are elevated) -> 'exec' is dangerous!
-# script must be started with sudo privileges or root user
-if [ "$(id -u)" -ne 0 ]
-then
-    echo "Please run as root!"
-    exit 2
-fi
-     
+    
 # define functions -> apt-get check is fine, but not needed since package names can vary on different linux distributions (hence, this must be run on ubuntu/debian where apt-get is present)
 install() {
     apt-get install "${1}"
@@ -68,14 +68,10 @@ get_latest_wp() {
 get_latest_wp 
 echo "Wordpress is installed."
 
-# Get configuration files from Git repository (with assumption that GIT was pre-installed on the system)
-cd ${home}
-${get_repo}
-
 # Copy configuration files 
-cp $confs/www.conf ${phpdef}
-cp $confs/default  ${ndef}
-cp $confs/wp-config.php ${wploc}
+cp ${confs}/www.conf ${phpdef}
+cp ${confs}/default  ${ndef}
+cp ${confs}/wp-config.php ${wploc}
 cp -avr ${repo} ${dnsloc}
    
 # Allow firewall
