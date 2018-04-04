@@ -1,4 +1,5 @@
-et -o errexit
+#!/usr/bin/env bash
+set -o errexit
 
 # script must be started with sudo privileges or root user - root user always 0!
 if [ "$(id -u)" -ne 0 ]
