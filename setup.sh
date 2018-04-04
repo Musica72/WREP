@@ -9,8 +9,13 @@ then
 fi
 
 # Variables
+<<<<<<< HEAD
 getwp="$(wget https://wordpress.org/latest.tar.gz)"
 untar="$(tar -xvzf latest.tar.gz)" 
+=======
+download="$(wget https://wordpress.org/latest.tar.gz)"
+unzip="$(tar -xvzf latest.tar.gz)" 
+>>>>>>> 6d6a8448666758e1c07270e8d7411cf043752438
 home="/home/${USER}"  #global variable $HOME exists, but i think this is more appropriate.
 repo="${home}/WREP"
 ngdir="/usr/share/nginx/"
@@ -69,10 +74,17 @@ get_latest_wp
 echo "Wordpress is installed."
 
 # Copy configuration files 
+<<<<<<< HEAD
 cp "${confs}/www.conf" ${phpdef}
 cp "${confs}/default"  ${ndef}
 cp "${confs}/wp-config.php" ${wploc}
 cp -avr "${repo}" "${dnsloc}"
+=======
+cp ${confs}/www.conf ${phpdef}
+cp ${confs}/default  ${ndef}
+cp ${confs}/wp-config.php ${wploc}
+cp -avr ${repo} ${dnsloc}
+>>>>>>> 6d6a8448666758e1c07270e8d7411cf043752438
    
 # Allow firewall
 firewall (){
