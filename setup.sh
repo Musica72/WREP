@@ -22,16 +22,16 @@ dnsloc="/etc/bind/"
     
 # define functions -> apt-get check is fine, but not needed since package names can vary on different linux distributions (hence, this must be run on ubuntu/debian where apt-get is present)
 install() {
-    apt-get install -qq"${1}"
+    apt-get install "${1}"
 }
 add_repo() {
-    apt-add-repository -y ppa:"${1}" > /dev/null 2>&1
+    apt-add-repository -y ppa:"${1}" 
 }
 update(){
-    apt-get --qq update
+    apt-get update
 }
 upgrade(){
-    apt-get -qq upgrade
+    apt-get  upgrade
 }
      
 # add package repositories - add-apt-repository only makes package available for download, refreshes the package list -> does not install them!
